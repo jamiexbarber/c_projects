@@ -1,2 +1,2 @@
-# c_projects
-For C language learning and improving
+# C Language Projects
+For C language for learning and improving
