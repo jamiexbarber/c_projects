@@ -40,43 +40,46 @@ void bubble_sort(int *array){
 
     first = allocate(1);
     next = allocate(1);
-
-    first = array;
-    next = (array + 1);
     
     while(unsorted){
         unsorted = 0;
+        first = array;
+        next = first + 1;
+
         for(int i = 0; i < SIZE; i++){
             if (*first < *next){
-                printf("first:%d, next:%d, i:%d\n", *first, *next, i);
                 swap(first, next);
-                printf("swapped!\n");
                 unsorted = 1;
             }
-            first++;
-            next++;
+            *(first++);
+            *(next++);
+        
         }
     }
-    free(first);
-    free(next);
 }
 
 int main()
 {
+    /*int arrayofnum[5] = {3, 6, 5, 0, 1};*/
+
     int *arrayofnum;
 
     arrayofnum = allocate(SIZE);
     for(int i = 0; i < SIZE; i++){
-        *(arrayofnum+i) = rand() % 10;
+        *(arrayofnum+i) = rand() % 20;
         printf("%d, ", *(arrayofnum+i));
     }
+    printf("\n");
+    
+   
 
     /*Bubble Sort*/
     bubble_sort(arrayofnum);
+
     for(int i = 0; i < SIZE; i++){
         printf("%d, ", arrayofnum[i]);
     }
+    printf("\n");
 
-    free(arrayofnum);
     return(0);
 }
