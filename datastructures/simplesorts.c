@@ -76,42 +76,39 @@ void bubble_sort(int *array){
     free(next);
 }
 
+/*Selection Sort
+*/
 void selection_sort(int* array){
 int *first;
 int smallest;
 int smallest_index;
 int swap_num = 0;
-int unsorted = 1;
+
 
 first = allocate(1);
 
 
 
 
-while(unsorted){
-
-    first = array;     /*address of array[0]*/
-    smallest = *array; /*array[0]*/
-    unsorted = 0;
-
-
-    for(int i = 0; i < SIZE; i++){
-        if(*first < smallest){
-            smallest = *first;
-            smallest_index = i;
+for(int i = 0; i < SIZE-1; i++){
+    first = (array+i);     /*address of array[i]*/
+    smallest = *(array+i); /*initialize smallest to array[i]*/
+    for(int j = i+1; j < SIZE; j++){
+        if(*(array+j) < smallest){
+            smallest = *(array+j);
+            smallest_index = j;
             swap_num = 1;
-            unsorted = 1;
         }
     }
     if(swap_num){
-        swap(first,(array+smallest_index));
-        swap_num = 0;
+    swap(first,(array+smallest_index));
+    swap_num = 0;
     }
-    (first++);
-}
-    
 }
 
+
+
+}
 
 int main()
 {
@@ -121,11 +118,11 @@ int main()
 
     arrayofnum = allocate(SIZE);
     for(int i = 0; i < SIZE; i++){
-        *(arrayofnum+i) = rand() % 20;
+        *(arrayofnum+i) = rand() % 15;
         printf("%d, ", *(arrayofnum+i));
     }
     printf("\n");
-    
+
    
 
     /*Bubble Sort*/
