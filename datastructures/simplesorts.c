@@ -77,35 +77,78 @@ void bubble_sort(int *array){
 }
 
 /*Selection Sort
+Selection sort uses half the number of steps (worst-case estimate) as 
+Bubble sort.
+
+While Bubble Sort makes a swap for every comparison 
+(there may be several swaps in one array pass-through), 
+
+Selection Sort only makes one swap per pass-through, after choosing the smallest number in that pass-through
+
+The twice as fast efficiency (N**2/2) is considered the same as N**2 because we don't consider constants in big O notation
 */
 void selection_sort(int* array){
-int *first;
-int smallest;
-int smallest_index;
-int swap_num = 0;
+    int *first;
+    int smallest;
+    int smallest_index;
+    int swap_num = 0;
 
+    first = allocate(1);
 
-first = allocate(1);
-
-
-
-
-for(int i = 0; i < SIZE-1; i++){
-    first = (array+i);     /*address of array[i]*/
-    smallest = *(array+i); /*initialize smallest to array[i]*/
-    for(int j = i+1; j < SIZE; j++){
-        if(*(array+j) < smallest){
-            smallest = *(array+j);
-            smallest_index = j;
-            swap_num = 1;
+    for(int i = 0; i < SIZE-1; i++){
+        first = (array+i);     /*address of array[i]*/
+        smallest = *(array+i); /*initialize smallest to array[i]*/
+        for(int j = i+1; j < SIZE; j++){
+            if(*(array+j) < smallest){
+                smallest = *(array+j);
+                smallest_index = j;
+                swap_num = 1;
+            }
+        }
+        if(swap_num){
+        swap(first,(array+smallest_index));
+        swap_num = 0;
         }
     }
-    if(swap_num){
-    swap(first,(array+smallest_index));
-    swap_num = 0;
-    }
 }
+/*Insertion Sort
+Each value in the array is compared with all the values to the left of the chosen value. 
 
+Assuming least to greatest, for each array value, larger than the chosen value, the array value
+will be shifted to the right.
+
+Once the chosen value is greater than an array value, the chosen value will be placed into the position just to 
+the right of that array value (for loop should be broken)
+
+This is interesting because in the worst case scenario, efficiency is N**2 (~N**2/2 comparisons and N**2/2 shifts worst case)
+But in the average case scenario, it's possible to end a pass-through early, to just compare the value to the left and no shift required
+so in the average case scenario, efficiency is closer to N**2/2 making it the same as Selection Sort.
+
+The trick is, we don't need to compare all the left array values, if the first value to the left is less than the chosen value, loop broken
+and the pass-through can end, the chosen value can stay and the next value can be chosen.
+*/
+void insertion_sort(int* array){
+    int* index;
+    int chosen_value;
+    int left_value;
+
+    index = allocate(1);
+
+    for(int i = 1; i < (SIZE-1); i++){
+        chosen_value = *(array+i);
+        left_value = (i - 1);
+
+        printf("chosen_value:%d", chosen_value);
+        while (left_value >= 0){
+            if (chosen_value < *(array + left_value)){
+                left_value = (i - 1);
+            }
+            else{
+                break;
+            }
+        }
+        
+    }
 
 
 }
@@ -118,7 +161,7 @@ int main()
 
     arrayofnum = allocate(SIZE);
     for(int i = 0; i < SIZE; i++){
-        *(arrayofnum+i) = rand() % 15;
+        *(arrayofnum+i) = rand() % 10;
         printf("%d, ", *(arrayofnum+i));
     }
     printf("\n");
@@ -129,7 +172,10 @@ int main()
     /*bubble_sort(arrayofnum);*/
 
     /*Selection Sort*/
-    selection_sort(arrayofnum);
+    /*selection_sort(arrayofnum);*/
+
+    /*Insertion Sort*/
+    /*insertion_sort(arrayofnum);*/
 
     for(int i = 0; i < SIZE; i++){
         printf("%d, ", arrayofnum[i]);
