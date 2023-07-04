@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define SIZE 5
 
@@ -130,26 +131,30 @@ and the pass-through can end, the chosen value can stay and the next value can b
 void insertion_sort(int* array){
     int* index;
     int chosen_value;
-    int left_value;
+    int left_value_position;
 
     index = allocate(1);
 
-    for(int i = 1; i < (SIZE-1); i++){
+    for(int i = 1; i < SIZE; i++){
         chosen_value = *(array+i);
-        left_value = (i - 1);
+        left_value_position = (i - 1);
 
-        printf("chosen_value:%d", chosen_value);
-        while (left_value >= 0){
-            if (chosen_value < *(array + left_value)){
-                left_value = (i - 1);
+        printf("chosen_value:%d\n", chosen_value);
+        while (left_value_position >= 0){
+            if (chosen_value < *(array + left_value_position)){
+                printf("array+left_value_posi:%d, left_value_position:%d\n", *(array + left_value_position), left_value_position);
+                swap((array+left_value_position), (array+left_value_position+1)); /*shift*/
+                left_value_position--;
             }
             else{
                 break;
             }
+
         }
         
     }
 
+    free(index);
 
 }
 
@@ -158,18 +163,21 @@ int main()
     /*int arrayofnum[5] = {3, 6, 5, 0, 1};*/
 
     int *arrayofnum;
+    clock_t start, end;
+    double runtime;
 
     arrayofnum = allocate(SIZE);
     for(int i = 0; i < SIZE; i++){
-        *(arrayofnum+i) = rand() % 10;
+        *(arrayofnum+i) = rand() % 15;
         printf("%d, ", *(arrayofnum+i));
     }
     printf("\n");
-
+    
+    start = clock();
    
 
     /*Bubble Sort*/
-    /*bubble_sort(arrayofnum);*/
+    bubble_sort(arrayofnum);
 
     /*Selection Sort*/
     /*selection_sort(arrayofnum);*/
@@ -177,10 +185,15 @@ int main()
     /*Insertion Sort*/
     /*insertion_sort(arrayofnum);*/
 
+    end = clock();
+
     for(int i = 0; i < SIZE; i++){
         printf("%d, ", arrayofnum[i]);
     }
     printf("\n");
+
+    runtime = (double) (end-start / CLOCKS_PER_SEC);
+    printf("Runtime:%f", runtime);
 
     return(0);
 }
