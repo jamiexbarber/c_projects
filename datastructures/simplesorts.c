@@ -62,8 +62,8 @@ void bubble_sort(int *array){
         first = array;
         next = first + 1;
 
-        for(int i = 0; i < SIZE; i++){
-            if (*first < *next){
+        for(int i = 0; i < SIZE-1; i++){
+            if (*first > *next){
                 swap(first, next);
                 unsorted = 1;
             }
@@ -72,9 +72,6 @@ void bubble_sort(int *array){
         
         }
     }
-
-    free(first);
-    free(next);
 }
 
 /*Selection Sort
@@ -139,10 +136,8 @@ void insertion_sort(int* array){
         chosen_value = *(array+i);
         left_value_position = (i - 1);
 
-        printf("chosen_value:%d\n", chosen_value);
         while (left_value_position >= 0){
             if (chosen_value < *(array + left_value_position)){
-                printf("array+left_value_posi:%d, left_value_position:%d\n", *(array + left_value_position), left_value_position);
                 swap((array+left_value_position), (array+left_value_position+1)); /*shift*/
                 left_value_position--;
             }
@@ -168,7 +163,7 @@ int main()
 
     arrayofnum = allocate(SIZE);
     for(int i = 0; i < SIZE; i++){
-        *(arrayofnum+i) = rand() % 15;
+        *(arrayofnum+i) = rand() % 32;
         printf("%d, ", *(arrayofnum+i));
     }
     printf("\n");
@@ -177,13 +172,13 @@ int main()
    
 
     /*Bubble Sort*/
-    bubble_sort(arrayofnum);
+    /*bubble_sort(arrayofnum);*/
 
     /*Selection Sort*/
     /*selection_sort(arrayofnum);*/
 
     /*Insertion Sort*/
-    /*insertion_sort(arrayofnum);*/
+    insertion_sort(arrayofnum);
 
     end = clock();
 
